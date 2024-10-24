@@ -1,4 +1,4 @@
-app-media-player.media-player {
+.media-player {
     background-color: var(--color-5);
     position: fixed;
     bottom: 0;
