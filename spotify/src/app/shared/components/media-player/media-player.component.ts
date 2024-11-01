@@ -5,8 +5,6 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-media-player',
-  // standalone: true,
-  // imports: [NgIf, NgTemplateOutlet],
   templateUrl: './media-player.component.html',
   styleUrls: ['./media-player.component.css']
 })
@@ -24,13 +22,15 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   constructor(private multimediaService: MultimediaService){ }
 
   ngOnInit(): void {
-    const observer1$: Subscription = this.multimediaService.callback.subscribe(
-      (res: TracksModel) => {
-        console.log('Recibiendo canción.....', res)
-      }
+    const observable1$ = this.multimediaService.myBehaviorSubject$ // myBehaviorSubject$ es esa varaible usada pero tambien puede serlo mySubject$ o myObservable$ dependiendo de cual se use
+    .subscribe(
+      (responseOk)=>{
+        console.log('👌el agua llega perfecto!', responseOk)
+      }, // equivalente a next()
+      (responseFail)=>{
+        console.log('🛑 se cortó el agua 🛑', responseFail)
+      } // equivalente a error()
     )
-
-    this.listObservers$ = [observer1$]
   }
 
   ngOnDestroy(): void {

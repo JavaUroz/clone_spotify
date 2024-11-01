@@ -21,8 +21,6 @@ export class TracksPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadDataAll()
     this.loadDataRandom()
-    console.log(this.tracksTrending)
-
   }
   //una forma de cargar datos desde una promesa
   async loadDataAll(): Promise<any>{
