@@ -5,8 +5,6 @@ import { TracksModel } from '@core/models/tracks.model';
 
 @Component({
   selector: 'app-section-generic',
-  // standalone: true,
-  // imports: [CardPlayerComponent, NgClass, NgFor, JsonPipe],
   templateUrl: './section-generic.component.html',
   styleUrl: './section-generic.component.css'
 })

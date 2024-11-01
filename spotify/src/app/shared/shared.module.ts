@@ -10,7 +10,6 @@ import { PlayListHeaderComponent } from './components/play-list-header/play-list
 import { PlayListBodyComponent } from './components/play-list-body/play-list-body.component';
 import { OrderListPipe } from './pipe/order-list.pipe';
 import { ImgBrokenDirective } from './directives/img-broken.directive';
-import { LoginPageComponent } from '@modules/auth/pages/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { LoginPageComponent } from '@modules/auth/pages/login-page/login-page.co
     PlayListHeaderComponent,
     PlayListBodyComponent,
     OrderListPipe,
-    ImgBrokenDirective,
-    LoginPageComponent
+    ImgBrokenDirective
   ],
   imports: [
     CommonModule,
@@ -38,8 +36,7 @@ import { LoginPageComponent } from '@modules/auth/pages/login-page/login-page.co
     PlayListHeaderComponent,
     PlayListBodyComponent,
     OrderListPipe,
-    ImgBrokenDirective,
-    LoginPageComponent
+    ImgBrokenDirective
   ]
 })
 export class SharedModule { }
