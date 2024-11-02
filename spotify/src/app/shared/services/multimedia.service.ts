@@ -13,8 +13,9 @@ export class MultimediaService {
   public audio!: HTMLAudioElement // 'audio!' no es inicializada y su tipo es <audio> en HTML
   public timeElapsed$: BehaviorSubject<string> = new BehaviorSubject('00:00')
   public timeRemaining$: BehaviorSubject<string> = new BehaviorSubject('-00:00')
-  public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('pause')
-  
+  public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('paused')
+  public playerPercentage$: BehaviorSubject<number> = new BehaviorSubject(0)
+
   constructor() {
     this.audio = new Audio()
     this.trackInfo$.subscribe(responseOk =>{
@@ -34,7 +35,6 @@ export class MultimediaService {
   }
 
   private setPlayerStatus = (state: any) => {
-    console.log('setPlayerStatus', state)
     switch (state.type) {
       case 'play':
         this.playerStatus$.next('play')
@@ -46,7 +46,7 @@ export class MultimediaService {
         this.playerStatus$.next('ended')
         break
       default:
-        this.playerStatus$.next('pause')
+        this.playerStatus$.next('paused')
         break
     }
   }
@@ -55,6 +55,7 @@ export class MultimediaService {
     const { duration, currentTime } = this.audio
     this.setTimeElapsed(currentTime)
     this.setTimeRemaining(currentTime, duration)
+    this.setPercentage(currentTime, duration)
   }
 
   private setTimeElapsed(currentTime:number): void {
@@ -88,7 +89,18 @@ export class MultimediaService {
     this.audio.play()
   }
 
+  private setPercentage(currentTime: number, duration: number): void {
+    let percentage = currentTime * 100 / duration
+    this.playerPercentage$.next(percentage)
+  }
+
   public tooglePlayer():void {
     (this.audio.paused) ? this.audio.play() : this.audio.pause()
+  }
+
+  public seekAudio(percentage:number):void{
+    const {duration} = this.audio
+    const percentageToSeconds = duration * percentage / 100
+    this.audio.currentTime = percentageToSeconds
   }
 }
