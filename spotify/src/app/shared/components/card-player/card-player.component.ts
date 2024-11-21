@@ -7,7 +7,7 @@ import { MultimediaService } from '@shared/services/multimedia.service';
   // standalone: true,
   // imports: [NgIf, NgClass],
   templateUrl: './card-player.component.html',
-  styleUrl: './card-player.component.css'
+  styleUrls: ['./card-player.component.css']
 })
 export class CardPlayerComponent implements OnInit {
   @Input() mode: 'small' | 'big' = 'small';

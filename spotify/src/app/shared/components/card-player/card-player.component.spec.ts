@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardPlayerComponent } from './card-player.component';
+import { MultimediaService } from '@shared/services/multimedia.service';
 
 describe('CardPlayerComponent', () => {
   let component: CardPlayerComponent;
@@ -8,7 +9,10 @@ describe('CardPlayerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardPlayerComponent]
+      declarations: [CardPlayerComponent],
+      providers:[
+        MultimediaService
+      ]
     })
     .compileComponents();
 

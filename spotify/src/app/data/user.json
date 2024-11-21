@@ -1,0 +1,10 @@
+{
+    "userFail": {
+        "email": "pablito_clavo_un_clavito",
+        "password": "-.-.-..--.--.-.-.-.-."
+    },
+    "userOk": {
+        "email": "test@test.com",
+        "password": "12345678"
+    }
+}

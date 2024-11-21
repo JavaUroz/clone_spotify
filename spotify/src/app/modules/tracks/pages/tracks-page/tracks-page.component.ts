@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TracksModel } from '@core/models/tracks.model';
 import { TrackService } from '@modules/tracks/services/track.service';
-import { error } from 'console';
 import { Subscription } from 'rxjs';
 
 @Component({
