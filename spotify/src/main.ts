@@ -1,14 +1,12 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-
 import { environment } from './environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
 import { InjectSessionInterceptor } from '@core/interceptors/inject-session.interceptor';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
+import { appRoutes } from './app/app.routes';
 
 if (environment.production) {
   enableProdMode();
@@ -16,7 +14,8 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule),
+      provideRouter(appRoutes),
+        importProvidersFrom(BrowserModule),
         CookieService,
         {
             provide: HTTP_INTERCEPTORS,

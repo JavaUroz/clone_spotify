@@ -1,14 +1,16 @@
-import { Routes } from '@angular/router';
 import { HomePageComponent } from '@modules/home/pages/home-page/home-page.component';
+import { Routes } from '@angular/router';
+import { SessionGuard } from '@core/guards/session.guard';
 
-export const routes: Routes = [
-    {
-        path: 'auth',
-        loadChildren: () => import(`./modules/auth/auth.module`).then(m => m.AuthModule)        
-    },
-    {
-        path: '',
-        component: HomePageComponent,
-        loadChildren: () => import(`./modules/home/home.module`).then(m => m.HomeModule)        
-    }
+export const appRoutes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import(`./modules/auth/auth.routes`).then(m => m.authRoutes)
+  },
+  {
+    path: '',
+    component: HomePageComponent,
+    loadChildren: () => import(`./modules/home/home.routes`).then(m => m.homeRoutes),
+    canActivate: [SessionGuard]
+  }
 ];
