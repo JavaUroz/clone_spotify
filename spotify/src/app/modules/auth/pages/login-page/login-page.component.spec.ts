@@ -11,13 +11,13 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginPageComponent],
-      imports: [
-        HttpClientTestingModule, 
+    imports: [
+        HttpClientTestingModule,
         RouterTestingModule,
-        ReactiveFormsModule
-      ]
-    })
+        ReactiveFormsModule,
+        LoginPageComponent
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(LoginPageComponent);

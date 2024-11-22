@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports:[
-        RouterModule.forRoot([])
-      ]
-    }).compileComponents();
+    imports: [
+        RouterModule.forRoot([]),
+        AppComponent
+    ]
+}).compileComponents();
   });
 
   it('should create the app', () => {

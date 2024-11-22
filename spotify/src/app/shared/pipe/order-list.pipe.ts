@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TracksModel } from '@core/models/tracks.model';
 
 @Pipe({
-  name: 'orderList',
-  //standalone: true
+    name: 'orderList',
+    standalone: true,
 })
 export class OrderListPipe implements PipeTransform {
 

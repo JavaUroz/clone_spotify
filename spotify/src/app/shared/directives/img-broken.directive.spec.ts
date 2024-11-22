@@ -5,7 +5,8 @@ import { By } from '@angular/platform-browser';
 
 //Componente de prueba
 @Component({
-  template:'<img appImgBroken [src]="srcMock" class="testing-directive">'
+    template: '<img appImgBroken [src]="srcMock" class="testing-directive">',
+    standalone: true
 })
 class TestComponent {
   public srcMock: any = null
@@ -17,11 +18,9 @@ describe('ImgBrokenDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations:[
-        TestComponent,
-        ImgBrokenDirective
-      ]
-    })
+    imports: [TestComponent,
+        ImgBrokenDirective]
+})
 
     fixture = TestBed.createComponent(TestComponent)
     fixture.detectChanges()

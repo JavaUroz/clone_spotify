@@ -9,11 +9,11 @@ describe('CardPlayerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CardPlayerComponent],
-      providers:[
+    imports: [CardPlayerComponent],
+    providers: [
         MultimediaService
-      ]
-    })
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(CardPlayerComponent);

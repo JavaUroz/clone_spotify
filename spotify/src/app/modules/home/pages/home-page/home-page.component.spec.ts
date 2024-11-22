@@ -12,18 +12,17 @@ describe('HomePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomePageComponent, SideBarComponent, MediaPlayerComponent],
-      imports: [RouterOutlet, RouterModule],
-      providers: [
+    imports: [RouterOutlet, RouterModule, HomePageComponent, SideBarComponent, MediaPlayerComponent],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { paramMap: new Map() },
-            queryParams: of({}), 
-          }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: { paramMap: new Map() },
+                queryParams: of({}),
+            }
         }
-      ]
-    })
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(HomePageComponent);

@@ -13,14 +13,11 @@ describe('HistoryPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations:[
-        HistoryPageComponent,
+    imports: [HttpClientTestingModule, FormsModule, HistoryPageComponent,
         SearchComponent,
         PlayListBodyComponent,
-        OrderListPipe,
-      ],
-      imports: [HttpClientTestingModule, FormsModule]
-    })
+        OrderListPipe]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(HistoryPageComponent);
