@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
+import { currentUser } from '@core/utils/getCurrentUser';
 
 export const homeRoutes: Routes = [
   {
     path: 'tracks',
+    resolve: {
+      currentUser
+    },
     loadChildren: () => import('@modules/tracks/tracks.routes').then(m => m.tracksRoutes)
   },
   {

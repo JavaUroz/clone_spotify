@@ -1,6 +1,5 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, signal, effect } from '@angular/core';
 import { TracksModel } from '@core/models/tracks.model';
-import { BehaviorSubject, min, Observable, Observer, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,21 +7,26 @@ import { BehaviorSubject, min, Observable, Observer, Subject } from 'rxjs';
 export class MultimediaService {
 
   callback: EventEmitter<any> = new EventEmitter<any>();
-
-  public trackInfo$: BehaviorSubject<any> = new BehaviorSubject(undefined)
-  public audio!: HTMLAudioElement // 'audio!' no es inicializada y su tipo es <audio> en HTML
-  public timeElapsed$: BehaviorSubject<string> = new BehaviorSubject('00:00')
-  public timeRemaining$: BehaviorSubject<string> = new BehaviorSubject('-00:00')
-  public playerStatus$: BehaviorSubject<string> = new BehaviorSubject('paused')
-  public playerPercentage$: BehaviorSubject<number> = new BehaviorSubject(0)
+  public audio!: HTMLAudioElement
+  public trackInfoSignal = signal<TracksModel | undefined>(undefined)
+  public timeElapsedSignal = signal<string>('00:00')
+  public timeRemainingSignal = signal<string>('-00:00')
+  public playerStatusSignal = signal<string>('paused')
+  public playerPercentageSignal = signal<number>(0)
 
   constructor() {
     this.audio = new Audio()
-    this.trackInfo$.subscribe(responseOk =>{
-      if(responseOk){
-        this.setAudio(responseOk)
-      }      
+
+    effect(()=>{
+      const dataInfo = this.trackInfoSignal()
+      console.log('desde signal reproduciendo en lugar de una suscripcion: ',dataInfo)
+      if(dataInfo) this.setAudio(dataInfo)
     })
+    // this.trackInfo$.subscribe(responseOk =>{
+    //   if(responseOk){
+    //     this.setAudio(responseOk)
+    //   }      
+    // })
     this.listenAllEvents()
   }
 
@@ -37,16 +41,16 @@ export class MultimediaService {
   private setPlayerStatus = (state: any) => {
     switch (state.type) {
       case 'play':
-        this.playerStatus$.next('play')
+        this.playerStatusSignal.set('play')
         break
       case 'playing':
-        this.playerStatus$.next('playing')
+        this.playerStatusSignal.set('playing')
         break
       case 'ended':
-        this.playerStatus$.next('ended')
+        this.playerStatusSignal.set('ended')
         break
       default:
-        this.playerStatus$.next('paused')
+        this.playerStatusSignal.set('paused')
         break
     }
   }
@@ -66,7 +70,7 @@ export class MultimediaService {
     const displayMinutes = ((minutes < 10) ? `0${minutes}` : minutes)
 
     const displayFormat = `${displayMinutes}:${displaySeconds}`
-    this.timeElapsed$.next(displayFormat)
+    this.timeElapsedSignal.set(displayFormat)
   }
 
   private setTimeRemaining(currentTime: number, duration: number) {
@@ -79,19 +83,18 @@ export class MultimediaService {
     const displayMinutes = ((minutes < 10) ? `0${minutes}` : minutes)
 
     const displayFormat = `-${displayMinutes}:${displaySeconds}`
-    this.timeRemaining$.next(displayFormat)
+    this.timeRemainingSignal.set(displayFormat)
 
   }
 
   public setAudio(track: TracksModel): void {
-    console.log('Informacion de data desde Servicio', track)
     this.audio.src = track.url
     this.audio.play()
   }
 
   private setPercentage(currentTime: number, duration: number): void {
     let percentage = currentTime * 100 / duration
-    this.playerPercentage$.next(percentage)
+    this.playerPercentageSignal.set(percentage)
   }
 
   public tooglePlayer():void {

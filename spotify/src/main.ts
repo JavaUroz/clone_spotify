@@ -1,12 +1,12 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { environment } from './environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
-import { InjectSessionInterceptor } from '@core/interceptors/inject-session.interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { appRoutes } from './app/app.routes';
+import { authorizationInterceptor } from '@core/interceptors/session.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -14,15 +14,9 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-      provideRouter(appRoutes),
+      provideRouter(appRoutes, withComponentInputBinding()),
         importProvidersFrom(BrowserModule),
         CookieService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: InjectSessionInterceptor, // usar la clase
-            multi: true // por si necesitamos usar varios interceptores
-        },
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptors([authorizationInterceptor]))
     ]
-})
-  .catch(err => console.error(err));
+}).catch(err => console.error(err));

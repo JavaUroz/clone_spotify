@@ -1,41 +1,31 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TracksModel } from '@core/models/tracks.model';
-import { TrackService } from '@modules/tracks/services/track.service';
 import { Subscription } from 'rxjs';
 import { SectionGenericComponent } from '../../../../shared/components/section-generic/section-generic.component';
+import { getAllRandom$, getAlltracks$ } from '@modules/tracks/services/trackv2.service';import { CommonModule } from '@angular/common';
+;
 
 @Component({
     selector: 'app-tracks-page',
     templateUrl: './tracks-page.component.html',
     styleUrl: './tracks-page.component.css',
     standalone: true,
-    imports: [SectionGenericComponent]
+    imports: [SectionGenericComponent, CommonModule]
 })
-export class TracksPageComponent implements OnInit, OnDestroy {
+export class TracksPageComponent {
+  @Input() currentUser: any
+
   tracksTrending: Array<TracksModel> = []
   tracksRandom: Array<TracksModel> = []
   listObservers$: Array<Subscription> = []
-  
-  private trackService = inject(TrackService) // inject desde funtion
 
-  ngOnInit(): void {
-    this.loadDataAll()
-    this.loadDataRandom()
-  }
-  //una forma de cargar datos desde una promesa
-  async loadDataAll(): Promise<any>{
-    this.tracksTrending = await this.trackService.getAlltracks$().toPromise()
-    
-  }
-  // otra forma desde un subscribe
-  loadDataRandom(): void{
-    this.trackService.getAllRandom$()
-      .subscribe((response: TracksModel[]) => {
-        this.tracksRandom = response
+  constructor(){
+    getAlltracks$().subscribe((response: TracksModel[]) => {
+      this.tracksTrending = response
     })
-  }
 
-  ngOnDestroy(): void {
-
+    getAllRandom$().subscribe((response: TracksModel[]) => {
+      this.tracksRandom = response
+    })
   }
 }
